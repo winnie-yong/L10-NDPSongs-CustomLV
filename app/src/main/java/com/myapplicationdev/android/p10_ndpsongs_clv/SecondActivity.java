@@ -23,24 +23,29 @@ public class SecondActivity extends AppCompatActivity {
 	String moduleCode;
 	int requestCode = 9;
     Button btn5Stars;
+    ArrayList<String> spnYear;
+    Spinner spinner;
+    ArrayAdapter<String> spnAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_second);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
 
-        setTitle(getTitle().toString() + " ~ " +  getResources().getText(R.string.title_activity_second));
+        setTitle(getTitle().toString() + " ~ " + getResources().getText(R.string.title_activity_second));
 
-		lv = (ListView) this.findViewById(R.id.lv);
+        lv = (ListView) this.findViewById(R.id.lv);
         btn5Stars = (Button) this.findViewById(R.id.btnShow5Stars);
+        spinner = findViewById(R.id.spnYear);
 
-		DBHelper dbh = new DBHelper(this);
+        DBHelper dbh = new DBHelper(this);
         songList = dbh.getAllSongs();
+        spnYear = dbh.getYears();
         dbh.close();
 
-		//adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songList);
-		//lv.setAdapter(adapter);
-        adapter = new CustomAdapter(this,R.layout.row,songList);
+        //adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songList);
+        //lv.setAdapter(adapter);
+        adapter = new CustomAdapter(this, R.layout.row, songList);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,7 +67,23 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
+        spnAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,spnYear);
+        spinner.setAdapter(spnAdapter);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                DBHelper dbh = new DBHelper(SecondActivity.this);
+                songList.clear();
+                songList.addAll(dbh.getAllSongsByYear(Integer.valueOf(spnYear.get(position))));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 	@Override
