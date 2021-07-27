@@ -65,7 +65,6 @@ public class SecondActivity extends AppCompatActivity {
 
     }
 
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == this.requestCode && resultCode == RESULT_OK){
