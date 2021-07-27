@@ -5,6 +5,7 @@
     android:orientation="vertical"
     tools:context=".SecondActivity" >
 
+
     <Button
         android:id="@+id/btnShow5Stars"
         android:layout_width="match_parent"

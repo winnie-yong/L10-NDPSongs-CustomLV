@@ -7,16 +7,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SecondActivity extends AppCompatActivity {
 
 	ListView lv;
     ArrayList<Song> songList;
-	ArrayAdapter adapter;
+	//ArrayAdapter<Song> adapter;
+    CustomAdapter adapter;
 	String moduleCode;
 	int requestCode = 9;
     Button btn5Stars;
@@ -35,8 +38,10 @@ public class SecondActivity extends AppCompatActivity {
         songList = dbh.getAllSongs();
         dbh.close();
 
-		adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songList);
-		lv.setAdapter(adapter);
+		//adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songList);
+		//lv.setAdapter(adapter);
+        adapter = new CustomAdapter(this,R.layout.row,songList);
+        lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,6 +61,8 @@ public class SecondActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+
+
     }
 
 
